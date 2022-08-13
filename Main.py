@@ -25,7 +25,6 @@ def song_reset():
     paused = False
     playing = False
 
-
 def Select():
     global Song_Select
     global track
@@ -50,7 +49,6 @@ def playsong():
     else:
         pass
 
-
 def stopsong():
     global status
     mixer.music.stop()
@@ -74,6 +72,11 @@ def unpausesong():
         pass
     else:
         pass
+def loopsong():
+    global status
+    status = "Looping current song"
+    mixer.music.play(-1)
+
 
 song_dir()
 Select()
@@ -83,15 +86,10 @@ song_reset()
 while Open == 1:
     clearconsole()
 
-
-
     print("Current Song: ", track[Song_Select])
     print("Current Status: ", status)
 
-
-
-    check = input("1: Play\n2: Stop\n3: Pause\n4:Unpause\n5: Song Select\n6: Change Directoy\n7:Exit\nEnter Number:")
-
+    check = input("1: Play\n2: Stop\n3: Pause\n4:Unpause\n5: Loop Song\n6: Song Select\n7: Change Directoy\n8:Exit\nEnter Number:")
 
     if check == "1" or check == "play" or check == "Play":
         playsong()
@@ -101,14 +99,16 @@ while Open == 1:
         pausesong()
     elif check == "4" or check == "Unpause" or check == "unpause":
         unpausesong()
-    elif check == "5" or check == "Song" or check == "song":
+    elif check == "5" or check == "loop" or check == "Loop":
+        loopsong()
+    elif check == "6" or check == "Song" or check == "song":
         mixer.music.stop()
         song_reset()
         Select()
-    elif check == "6" or check == "Change" or check == "directory" or check == "Change Directory" or check == "Directory" or check == "change" or check == "dir" or check == "Dir":
+    elif check == "7" or check == "Change" or check == "directory" or check == "Change Directory" or check == "Directory" or check == "change" or check == "dir" or check == "Dir":
         mixer.music.stop()
         song_reset()
         song_dir()
-    elif check == "7" or check == "exit" or check == "Exit":
+    elif check == "8" or check == "exit" or check == "Exit":
         quit()
 
