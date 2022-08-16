@@ -4,6 +4,8 @@ from pygame import mixer
 mixer.init()
 
 Open = 1
+volume = 50
+
 
 def clearconsole():
     command = 'clear'
@@ -77,19 +79,33 @@ def loopsong():
     status = "Looping current song"
     mixer.music.play(-1)
 
+def vol_up():
+    global volume
+    volume = volume + 10
+    mixer.music.set_volume(volume)
+
+
+def vol_down():
+    global volume
+    volume = volume - 10
+    mixer.music.set_volume(volume)
+
+
+
 
 song_dir()
 Select()
 song_reset()
-
+mixer.music.set_volume(volume)
 
 while Open == 1:
     clearconsole()
 
     print("Current Song: ", track[Song_Select])
     print("Current Status: ", status)
+    print("Current Volume: ", volume)
 
-    check = input("1: Play\n2: Stop\n3: Pause\n4:Unpause\n5: Loop Song\n6: Song Select\n7: Change Directoy\n8:Exit\nEnter Number:")
+    check = input("1: Play\n2: Stop\n3: Pause\n4: Unpause\n5: Loop Song\n6: Song Select\n7: Change Directoy\n8: Volume Up\n9: Volume Down\n10: Exit\nEnter Number:")
 
     if check == "1" or check == "play" or check == "Play":
         playsong()
@@ -109,6 +125,9 @@ while Open == 1:
         mixer.music.stop()
         song_reset()
         song_dir()
-    elif check == "8" or check == "exit" or check == "Exit":
+    elif check == "8" or check == "Up" or check == "up":
+        vol_up()
+    elif check == "9" or check == "Down" or check == "down":
+        vol_down()
+    elif check == "10" or check == "exit" or check == "Exit":
         quit()
-
