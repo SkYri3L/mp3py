@@ -1,2 +1,3 @@
 # mp3py
-Simple Mp3 Player made in python controled via console
+Simple Mp3 Player made in python
+All controlled via the python console
