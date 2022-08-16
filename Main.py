@@ -4,8 +4,7 @@ from pygame import mixer
 mixer.init()
 
 Open = 1
-volume = 50
-
+Vol_Stat = "unmuted"
 
 def clearconsole():
     command = 'clear'
@@ -43,52 +42,61 @@ def Select():
 
 def playsong():
     global status
+    global playing
+    global paused
     if playing == False:
         mixer.music.play()
         status = "Music Playing"
+        playing = True
     elif playing == True:
         pass
+    elif paused == True and playing == False:
+        mixer.music.unpause()
+        playing = True
+        paused = False
     else:
         pass
 
 def stopsong():
     global status
-    mixer.music.stop()
-    status = "Music Stopped"
+    global playing
+    if playing == True:
+        mixer.music.stop()
+        status = "Music Stopped"
+        playing = False
+    elif playing == False:
+        pass
+
 def pausesong():
     global status
-    if paused == True:
+    global playing
+    global paused
+    if playing == False:
         pass
-    elif paused == False:
+    elif playing == True:
         mixer.music.pause()
         status = "Music Paused"
+        playing = False
+        paused = True
     else:
         pass
 
-def unpausesong():
-    global status
-    if paused == True:
-        mixer.music.unpause()
-        status = "Music Playing"
-    elif paused == False:
-        pass
-    else:
-        pass
 def loopsong():
     global status
+    global playing
+    playing = True
     status = "Looping current song"
     mixer.music.play(-1)
 
-def vol_up():
-    global volume
-    volume = volume + 10
-    mixer.music.set_volume(volume)
+def mute():
+    global Vol_Stat
+    Vol_Stat = "Muted"
+    mixer.music.set_volume(0)
 
-
-def vol_down():
-    global volume
-    volume = volume - 10
-    mixer.music.set_volume(volume)
+def unmute():
+    global Vol_Stat
+    Vol_Stat = "unmuted"
+    mixer.music.set_volume(100)
 
 
 
@@ -96,16 +104,15 @@ def vol_down():
 song_dir()
 Select()
 song_reset()
-mixer.music.set_volume(volume)
 
 while Open == 1:
     clearconsole()
 
     print("Current Song: ", track[Song_Select])
     print("Current Status: ", status)
-    print("Current Volume: ", volume)
+    print("Current Volume: ", Vol_Stat)
 
-    check = input("1: Play\n2: Stop\n3: Pause\n4: Unpause\n5: Loop Song\n6: Song Select\n7: Change Directoy\n8: Volume Up\n9: Volume Down\n10: Exit\nEnter Number:")
+    check = input("1: Play\n2: Stop\n3: Pause\n4: Loop Song\n5: Song Select\n6: Change Directoy\n7: Mute\n8: Unmute\n9: Exit\nEnter Number:")
 
     if check == "1" or check == "play" or check == "Play":
         playsong()
@@ -113,21 +120,19 @@ while Open == 1:
         stopsong()
     elif check == "3" or check == "Pause" or check == "pause":
         pausesong()
-    elif check == "4" or check == "Unpause" or check == "unpause":
-        unpausesong()
-    elif check == "5" or check == "loop" or check == "Loop":
+    elif check == "4" or check == "loop" or check == "Loop":
         loopsong()
-    elif check == "6" or check == "Song" or check == "song":
+    elif check == "5" or check == "Song" or check == "song":
         mixer.music.stop()
         song_reset()
         Select()
-    elif check == "7" or check == "Change" or check == "directory" or check == "Change Directory" or check == "Directory" or check == "change" or check == "dir" or check == "Dir":
+    elif check == "6" or check == "Change" or check == "directory" or check == "Change Directory" or check == "Directory" or check == "change" or check == "dir" or check == "Dir":
         mixer.music.stop()
         song_reset()
         song_dir()
-    elif check == "8" or check == "Up" or check == "up":
-        vol_up()
-    elif check == "9" or check == "Down" or check == "down":
-        vol_down()
-    elif check == "10" or check == "exit" or check == "Exit":
+    elif check == "7" or check == "mute" or check == "Mute":
+        mute()
+    elif check == "8" or check == "Unmute" or check == "unmute":
+        unmute()
+    elif check == "9" or check == "exit" or check == "Exit":
         quit()
