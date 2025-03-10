@@ -2,4 +2,4 @@
 Simple Mp3 Player made in python
 All controlled via the python console
 #
-(gonna remake with 2024 knowlage)
+(gonna remake with better knowlage)
